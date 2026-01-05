@@ -1,0 +1,472 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Flare - Ignite Your Code</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, Ubuntu, Cantarell, sans-serif;
+            background: #0a0a0a;
+            color: #ffffff;
+            overflow-x: hidden;
+        }
+
+        .stars {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            pointer-events: none;
+            z-index: 0;
+        }
+
+        .star {
+            position: absolute;
+            width: 2px;
+            height: 2px;
+            background: #ffffff;
+            border-radius: 50%;
+            opacity: 0.3;
+            animation: twinkle 3s infinite;
+        }
+
+        @keyframes twinkle {
+            0%, 100% { opacity: 0.3; }
+            50% { opacity: 0.8; }
+        }
+
+        .container {
+            position: relative;
+            z-index: 1;
+            max-width: 1400px;
+            margin: 0 auto;
+            padding: 0 2rem;
+        }
+
+        /* Hero Section */
+        .hero {
+            min-height: 100vh;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            text-align: center;
+            position: relative;
+        }
+
+        .logo {
+            width: 150px;
+            height: 150px;
+            margin-bottom: 2rem;
+            opacity: 0;
+            transform: scale(0.8);
+            animation: fadeInScale 1s forwards;
+        }
+
+        @keyframes fadeInScale {
+            to {
+                opacity: 1;
+                transform: scale(1);
+            }
+        }
+
+        h1 {
+            font-size: 5rem;
+            font-weight: 700;
+            background: linear-gradient(135deg, #ff6b35, #f7931e, #ffb347);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+            margin-bottom: 1.5rem;
+            opacity: 0;
+            transform: translateY(30px);
+            animation: fadeInUp 1s 0.3s forwards;
+        }
+
+        @keyframes fadeInUp {
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+
+        .tagline {
+            font-size: 1.25rem;
+            color: #cccccc;
+            max-width: 600px;
+            margin-bottom: 3rem;
+            line-height: 1.6;
+            opacity: 0;
+            transform: translateY(30px);
+            animation: fadeInUp 1s 0.6s forwards;
+        }
+
+        .cta-buttons {
+            display: flex;
+            gap: 1rem;
+            opacity: 0;
+            transform: translateY(30px);
+            animation: fadeInUp 1s 0.9s forwards;
+        }
+
+        .btn {
+            padding: 1rem 2.5rem;
+            border: none;
+            border-radius: 8px;
+            font-size: 1rem;
+            font-weight: 600;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            text-decoration: none;
+            display: inline-block;
+        }
+
+        .btn-primary {
+            background: linear-gradient(135deg, #ff6b35, #f7931e);
+            color: #ffffff;
+            box-shadow: 0 4px 15px rgba(255, 107, 53, 0.4);
+        }
+
+        .btn-primary:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 6px 20px rgba(255, 107, 53, 0.6);
+        }
+
+        .btn-secondary {
+            background: rgba(255, 255, 255, 0.1);
+            color: #ffffff;
+            border: 1px solid rgba(255, 255, 255, 0.2);
+        }
+
+        .btn-secondary:hover {
+            background: rgba(255, 255, 255, 0.15);
+            border-color: rgba(255, 255, 255, 0.3);
+        }
+
+        /* Features Section */
+        .section {
+            padding: 8rem 0;
+            position: relative;
+        }
+
+        .section-title {
+            text-align: center;
+            font-size: 2.5rem;
+            margin-bottom: 1rem;
+            background: linear-gradient(135deg, #ff6b35, #f7931e);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+        }
+
+        .section-subtitle {
+            text-align: center;
+            color: #999999;
+            margin-bottom: 5rem;
+            font-size: 1.1rem;
+        }
+
+        .features-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+            gap: 2rem;
+            margin-top: 4rem;
+        }
+
+        .feature-card {
+            background: rgba(255, 255, 255, 0.05);
+            padding: 2.5rem;
+            border-radius: 16px;
+            border: 1px solid rgba(255, 255, 255, 0.1);
+            transition: all 0.3s ease;
+            opacity: 0;
+            transform: translateY(50px);
+        }
+
+        .feature-card.visible {
+            animation: fadeInUp 0.6s forwards;
+        }
+
+        .feature-card:hover {
+            transform: translateY(-10px);
+            border-color: rgba(255, 107, 53, 0.5);
+            background: rgba(255, 255, 255, 0.08);
+        }
+
+        .feature-icon {
+            font-size: 3rem;
+            margin-bottom: 1.5rem;
+            display: block;
+        }
+
+        .feature-title {
+            font-size: 1.5rem;
+            margin-bottom: 1rem;
+            color: #ffffff;
+        }
+
+        .feature-description {
+            color: #cccccc;
+            line-height: 1.6;
+        }
+
+        /* Showcase Section */
+        .showcase {
+            background: rgba(255, 255, 255, 0.02);
+            border-radius: 24px;
+            padding: 4rem;
+            margin: 4rem 0;
+            border: 1px solid rgba(255, 255, 255, 0.1);
+            opacity: 0;
+            transform: translateY(50px);
+        }
+
+        .showcase.visible {
+            animation: fadeInUp 0.8s forwards;
+        }
+
+        .showcase-content {
+            display: flex;
+            align-items: center;
+            gap: 4rem;
+        }
+
+        .showcase-image {
+            flex: 1;
+            background: rgba(0, 0, 0, 0.5);
+            border-radius: 12px;
+            padding: 1rem;
+            border: 1px solid rgba(255, 107, 53, 0.3);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .showcase-image img {
+            width: 100%;
+            height: auto;
+            border-radius: 8px;
+            box-shadow: 0 8px 32px rgba(0, 0, 0, 0.4);
+        }
+
+
+        /* Community Section */
+        .community {
+            background: linear-gradient(135deg, rgba(255, 107, 53, 0.1), rgba(247, 147, 30, 0.1));
+            border-radius: 24px;
+            padding: 5rem 4rem;
+            text-align: center;
+            border: 1px solid rgba(255, 107, 53, 0.3);
+            opacity: 0;
+            transform: translateY(50px);
+        }
+
+        .community.visible {
+            animation: fadeInUp 0.8s forwards;
+        }
+
+        .community h2 {
+            font-size: 2.5rem;
+            margin-bottom: 1rem;
+            color: #ffffff;
+        }
+
+        .community p {
+            color: #cccccc;
+            margin-bottom: 2.5rem;
+            font-size: 1.1rem;
+        }
+
+        /* Scroll Indicator */
+        .scroll-indicator {
+            position: absolute;
+            bottom: 2rem;
+            left: 50%;
+            transform: translateX(-50%);
+            animation: bounce 2s infinite;
+        }
+
+        @keyframes bounce {
+            0%, 20%, 50%, 80%, 100% { transform: translateX(-50%) translateY(0); }
+            40% { transform: translateX(-50%) translateY(-10px); }
+            60% { transform: translateX(-50%) translateY(-5px); }
+        }
+
+        .scroll-indicator::after {
+            content: '↓';
+            font-size: 2rem;
+            color: #ff6b35;
+            opacity: 0.6;
+        }
+
+        /* Responsive */
+        @media (max-width: 768px) {
+            h1 {
+                font-size: 3rem;
+            }
+
+            .cta-buttons {
+                flex-direction: column;
+                width: 100%;
+            }
+
+            .btn {
+                width: 100%;
+            }
+
+            .showcase-content {
+                flex-direction: column;
+            }
+
+            .features-grid {
+                grid-template-columns: 1fr;
+            }
+
+            .community {
+                padding: 3rem 2rem;
+            }
+        }
+    </style>
+</head>
+<body>
+    <!-- Starfield Background -->
+    <div class="stars" id="stars"></div>
+
+    <!-- Hero Section -->
+    <div class="hero">
+        <div class="container">
+            <img src="https://i.postimg.cc/cL99cvxv/image-removebg-preview1.png" alt="Flare Logo" class="logo">
+            <h1>Flare</h1>
+            <p class="tagline">
+                Flare is the fastest framework to build full-stack web applications with high-quality, no-nonsense script execution.
+            </p>
+            <div class="cta-buttons">
+                <a href="https://discord.gg/pr4JwQYc" class="btn btn-primary">Download Flare</a>
+                <a href="https://discord.gg/pr4JwQYc" class="btn btn-secondary">Join Discord</a>
+            </div>
+        </div>
+        <div class="scroll-indicator"></div>
+    </div>
+
+    <!-- Why Flare Section -->
+    <div class="section">
+        <div class="container">
+            <h2 class="section-title">Why Flare?</h2>
+            <p class="section-subtitle">Built for developers who value speed</p>
+            
+            <div class="features-grid">
+                <div class="feature-card scroll-animate">
+                    <span class="feature-icon">⚡</span>
+                    <h3 class="feature-title">Fast</h3>
+                    <p class="feature-description">Lightning-fast performance with optimized execution that keeps your applications running at peak efficiency.</p>
+                </div>
+                
+                <div class="feature-card scroll-animate">
+                    <span class="feature-icon">✨</span>
+                    <h3 class="feature-title">Clean</h3>
+                    <p class="feature-description">Write beautiful, maintainable code with our intuitive syntax and comprehensive tooling support.</p>
+                </div>
+                
+                <div class="feature-card scroll-animate">
+                    <span class="feature-icon">🔥</span>
+                    <h3 class="feature-title">Reliable</h3>
+                    <p class="feature-description">Built to scale with production-grade stability. Deploy with confidence knowing Flare has your back.</p>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Flare Showcase -->
+    <div class="section">
+        <div class="container">
+            <h2 class="section-title">Flare Showcase</h2>
+            <p class="section-subtitle">See what you can build</p>
+            
+            <div class="showcase scroll-animate">
+                <div class="showcase-content">
+                    <div class="showcase-image">
+                        <img src="https://i.postimg.cc/MTR9xtyn/Screenshot-2026-01-04-223104.png" alt="Flare Showcase">
+                    </div>
+                    <div style="flex: 1;">
+                        <h3 style="font-size: 2rem; margin-bottom: 1.5rem;">Simple, Powerful APIs</h3>
+                        <p style="color: #cccccc; line-height: 1.8; font-size: 1.1rem;">
+                            Build modern web applications with an elegant API that gets out of your way. Flare provides everything you need without the bloat.
+                        </p>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Community Section -->
+    <div class="section">
+        <div class="container">
+            <div class="community scroll-animate">
+                <h2>Join the Flare Community</h2>
+                <p>Stay updated and connected</p>
+                <a href="https://discord.gg/pr4JwQYc" class="btn btn-primary">Get Started</a>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        // Create starfield
+        function createStars() {
+            const starsContainer = document.getElementById('stars');
+            const starCount = 200;
+            
+            for (let i = 0; i < starCount; i++) {
+                const star = document.createElement('div');
+                star.className = 'star';
+                star.style.left = Math.random() * 100 + '%';
+                star.style.top = Math.random() * 100 + '%';
+                star.style.animationDelay = Math.random() * 3 + 's';
+                starsContainer.appendChild(star);
+            }
+        }
+
+        // Scroll animations
+        function handleScrollAnimations() {
+            const elements = document.querySelectorAll('.scroll-animate');
+            
+            const observer = new IntersectionObserver((entries) => {
+                entries.forEach(entry => {
+                    if (entry.isIntersecting) {
+                        entry.target.classList.add('visible');
+                    }
+                });
+            }, {
+                threshold: 0.1,
+                rootMargin: '0px 0px -100px 0px'
+            });
+
+            elements.forEach(el => observer.observe(el));
+        }
+
+        // Initialize
+        createStars();
+        handleScrollAnimations();
+
+        // Smooth scroll for anchor links
+        document.querySelectorAll('a[href^="#"]').forEach(anchor => {
+            anchor.addEventListener('click', function (e) {
+                e.preventDefault();
+                const target = document.querySelector(this.getAttribute('href'));
+                if (target) {
+                    target.scrollIntoView({ behavior: 'smooth' });
+                }
+            });
+        });
+    </script>
+</body>
+</html>
